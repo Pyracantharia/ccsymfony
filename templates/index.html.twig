@@ -2,7 +2,41 @@
 
 {% block body %}
 <main class="max-w-7xl m-auto">
-    {% block main_content %}
+<nav class="bg-gray-800 p-4">
+    <div class="container mx-auto flex items-center justify-between">
+        <a href="{{ path('app_home') }}" class="text-white text-2xl font-bold">Mon Site</a>
+        
+        <!-- Menu principal -->
+        <div class="flex space-x-4">
+            <a href="{{ path('app_home') }}" class="text-white hover:bg-gray-700 p-2 rounded">Accueil</a>
+            <a href="{{ path('app_forgot_password_request') }}" class="text-white hover:bg-gray-700 p-2 rounded">Mot de passe oublié</a>
+            <a href="{{ path('app_login') }}" class="text-white hover:bg-gray-700 p-2 rounded">Connexion</a>
+            <a href="{{ path('app_register') }}" class="text-white hover:bg-gray-700 p-2 rounded">Inscription</a>
+
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ path('app_profile') }}" class="text-white hover:bg-gray-700 p-2 rounded">Profil</a>
+            {% endif %}
+            
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin_dashboard') }}" class="text-white hover:bg-gray-700 p-2 rounded">Admin</a>
+            {% endif %}
+        </div>
+        
+    
+    </div>
+</nav>
+  {% block main_content %}
+    
     {% endblock %}
+<script>
+    // Script pour gérer l'affichage du menu mobile
+    const toggleButton = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    toggleButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+  
 </main>
 {% endblock %}

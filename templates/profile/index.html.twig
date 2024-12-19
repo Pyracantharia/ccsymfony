@@ -1,0 +1,29 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block main_content %}
+    <div class="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
+        {% if app.user %}
+            <!-- Si l'utilisateur est connecté -->
+            <h2 class="text-2xl font-semibold mb-4">Welcome, {{ app.user.firstName }} {{ app.user.lastName }}!</h2>
+            <p class="text-gray-700">You are logged in as {{ app.user.email }}.</p>
+
+            <!-- Bouton de déconnexion -->
+            <div class="mt-6">
+                <a href="{{ path('app_logout') }}" class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    Logout
+                </a>
+            </div>
+        {% else %}
+            <!-- Si l'utilisateur n'est pas connecté -->
+            <h2 class="text-2xl font-semibold mb-4">You are not logged in.</h2>
+
+            <div class="mt-6">
+                <a href="{{ path('app_login') }}" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Login
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
