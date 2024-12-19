@@ -1,0 +1,6 @@
+App\Entity\Comment:
+  comment_{1..50}:
+    content: '<sentence(10)>'
+    publishedAt: '<dateTimeBetween("-1 year", "now")>'
+    article: '@article_<numberBetween(1,10)>'
+    author: '@user_<numberBetween(1,10)>'

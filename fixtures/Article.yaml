@@ -1,0 +1,7 @@
+App\Entity\Article:
+  article_{1..10}:
+    title: '<sentence(6)>'
+    content: '<paragraphs(3, true)>'
+    publishedAt: '<dateTimeBetween("-1 year", "now")>'
+    category: '@category_<numberBetween(1,5)>'
+    language: '@language_<numberBetween(1,3)>'
