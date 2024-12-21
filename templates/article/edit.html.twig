@@ -5,9 +5,16 @@
 {% block main_content %}
     <h1>Edit Article</h1>
 
-    {{ include('article/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
+        {{ form_row(form.publishedAt) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.language) }}
+        <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
+    {{ form_end(form) }}
 
-    <a href="{{ path('app_article_index') }}">back to list</a>
+    <a href="{{ path('app_article_index') }}" class="btn btn-secondary mt-4">Back to list</a>
 
-    {{ include('article/_delete_form.html.twig') }}
+       {{ include('article/_delete_form.html.twig', {'article': article}) }}
 {% endblock %}

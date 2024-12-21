@@ -3,7 +3,7 @@
 {% block title %}Article{% endblock %}
 
 {% block main_content %}
-    <h1>Article</h1>
+    <h1>{{ article.title }}</h1>
 
     <table class="table">
         <tbody>
@@ -26,9 +26,44 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_article_index') }}">back to list</a>
+    <a href="{{ path('app_article_index') }}">Back to list</a>
 
-    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+    <a href="{{ path('app_article_edit', {'id': article.id}) }}">Edit</a>
 
     {{ include('article/_delete_form.html.twig') }}
+
+    <!-- Formulaire pour ajouter un commentaire -->
+    <div class="mt-6">
+        <h3 class="text-xl font-semibold">Leave a Comment:</h3>
+        {{ form_start(commentForm) }}
+            {{ form_row(commentForm.content, {
+                'label': 'Your Comment',
+                'attr': {'class': 'form-control', 'rows': 4}
+            }) }}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        {{ form_end(commentForm) }}
+    </div>
+
+    <!-- Affichage des commentaires existants -->
+    <div class="mt-6">
+        <h3 class="text-xl font-semibold">Comments:</h3>
+        {% for comment in article.comments %}
+            <div class="border-t border-gray-300 pt-2">
+                <p><strong>{{ comment.author.firstName }} {{ comment.author.lastName }}:</strong></p>
+                <p>{{ comment.content }}</p>
+                <small class="text-gray-500">{{ comment.publishedAt|date('Y-m-d H:i:s') }}</small>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <!-- Lien de suppression pour l'admin -->
+                    <a href="{{ path('app_comment_delete', {'articleId': article.id, 'commentId': comment.id}) }}" 
+                       class="text-red-600 hover:text-red-800" 
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">
+                        Supprimer ce commentaire
+                    </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
 {% endblock %}

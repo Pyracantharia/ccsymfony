@@ -1,16 +1,47 @@
 {% extends 'index.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block main_content %}
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="alert alert-{{ label }}">
-            {{ message }}
-        </div>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
 
+    <h1 class="text-4xl text-center font-bold mb-8">Welcome to the Article Slider!</h1>
 
+    <div class="relative overflow-hidden">
+        <!-- Carrousel Container -->
+        <div class="flex space-x-4 animate-slider">
+            {% for article in articles %}
+                <div class="flex-shrink-0 w-64 bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img class="w-full h-48 object-cover" src="https://via.placeholder.com/300" alt="Article image">
+                    <div class="p-4">
+                        <h2 class="font-semibold text-xl">{{ article.title }}</h2>
+                        <p class="text-gray-500">{{ article.content | slice(0, 100) }}...</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
+    <script>
+        // JavaScript to make the carousel scroll automatically
+        let carousel = document.querySelector('.animate-slider');
+        let scrollWidth = carousel.scrollWidth;
+        let maxScroll = scrollWidth - carousel.clientWidth;
+        let currentPosition = 0;
+
+        setInterval(() => {
+            if (currentPosition >= maxScroll) {
+                currentPosition = 0;
+            } else {
+                currentPosition += 5; // Scroll speed
+            }
+            carousel.scrollLeft = currentPosition;
+        }, 20); // Adjust time for smoothness of scroll
+    </script>
 {% endblock %}
