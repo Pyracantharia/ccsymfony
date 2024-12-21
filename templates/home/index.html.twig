@@ -22,6 +22,19 @@
                     <div class="p-4">
                         <h2 class="font-semibold text-xl">{{ article.title }}</h2>
                         <p class="text-gray-500">{{ article.content | slice(0, 100) }}...</p>
+
+                        <!-- Comment Form -->
+                        {% if app.user and 'ROLE_BANNED' not in app.user.roles %}
+                            <div class="mt-6">
+                                <h3 class="text-xl font-semibold">Leave a Comment:</h3>
+                                <form method="post" action="{{ path('app_article_comment', {'id': article.id}) }}">
+                                    <textarea name="comment_content" class="form-control" rows="4" placeholder="Your comment..."></textarea>
+                                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="text-red-600 mt-4">You cannot leave a comment because you are banned.</p>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

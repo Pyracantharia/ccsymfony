@@ -10,12 +10,13 @@ use App\Repository\ArticleRepository;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function home(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $articleRepository): Response
     {
-        $articles = $articleRepository->findAll(); // Récupère tous les articles
+        // Récupérer tous les articles
+        $articles = $articleRepository->findAll();
     
         return $this->render('home/index.html.twig', [
-            'articles' => $articles,
+            'articles' => $articles, // Passer les articles à la vue
         ]);
     }
     

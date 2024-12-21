@@ -35,13 +35,10 @@
     <!-- Formulaire pour ajouter un commentaire -->
     <div class="mt-6">
         <h3 class="text-xl font-semibold">Leave a Comment:</h3>
-        {{ form_start(commentForm) }}
-            {{ form_row(commentForm.content, {
-                'label': 'Your Comment',
-                'attr': {'class': 'form-control', 'rows': 4}
-            }) }}
-            <button class="btn btn-primary" type="submit">Submit</button>
-        {{ form_end(commentForm) }}
+        <form method="post" action="{{ path('app_article_comment', {'id': article.id}) }}">
+            <textarea name="comment_content" class="form-control" rows="4" placeholder="Your comment..."></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
     </div>
 
     <!-- Affichage des commentaires existants -->
@@ -52,14 +49,11 @@
                 <p><strong>{{ comment.author.firstName }} {{ comment.author.lastName }}:</strong></p>
                 <p>{{ comment.content }}</p>
                 <small class="text-gray-500">{{ comment.publishedAt|date('Y-m-d H:i:s') }}</small>
-
+                
+                {# Vérification si l'utilisateur est admin pour afficher le bouton de suppression #}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <!-- Lien de suppression pour l'admin -->
                     <a href="{{ path('app_comment_delete', {'articleId': article.id, 'commentId': comment.id}) }}" 
-                       class="text-red-600 hover:text-red-800" 
-                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">
-                        Supprimer ce commentaire
-                    </a>
+                        class="text-red-600 hover:text-red-800">Delete</a>
                 {% endif %}
             </div>
         {% else %}

@@ -42,39 +42,70 @@ final class ArticleController extends AbstractController
         ]);
     }
 
+
     #[Route('/article/{id}', name: 'app_article_show')]
     public function show(Article $article, Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Créer un nouveau commentaire pour l'article
+        // Vérifie si l'utilisateur est banni
+        if ($this->getUser() && in_array('ROLE_BANNED', $this->getUser()->getRoles())) {
+            $this->addFlash('error', 'You are banned and cannot leave a comment.');
+            return $this->redirectToRoute('app_home'); // Rediriger vers la page d'accueil ou autre
+        }
+
+        // Si l'utilisateur n'est pas banni, permettre de laisser un commentaire
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // Associer l'article au commentaire
+            // Ajouter le commentaire à l'article et à l'utilisateur
             $comment->setArticle($article);
-            // Associer l'utilisateur connecté au commentaire
             $comment->setAuthor($this->getUser());
-            // Définir la date de publication du commentaire
             $comment->setPublishedAt(new \DateTimeImmutable());
-    
-            // Sauvegarder le commentaire
+
             $entityManager->persist($comment);
             $entityManager->flush();
-    
-            // Ajouter un message flash de succès
-            $this->addFlash('success', 'Commentaire ajouté avec succès!');
-            // Rediriger vers la même page de l'article
+
+            $this->addFlash('success', 'Your comment has been posted!');
             return $this->redirectToRoute('app_article_show', ['id' => $article->getId()]);
         }
-    
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'commentForm' => $form->createView(),
         ]);
     }
+
+
+
+
+    #[Route('/article/{id}/comment', name: 'app_article_comment', methods: ['POST'])]
+    public function comment(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    {
+        // Si l'utilisateur est banni, redirige avec un message d'erreur
+        if ($this->getUser() && in_array('ROLE_BANNED', $this->getUser()->getRoles())) {
+            $this->addFlash('error', 'You are banned and cannot leave a comment.');
+            return $this->redirectToRoute('app_home');
+        }
     
+        // Crée un nouveau commentaire
+        $comment = new Comment();
+        $comment->setArticle($article);
+        $comment->setAuthor($this->getUser());
+        $comment->setContent($request->request->get('comment_content'));
+        $comment->setPublishedAt(new \DateTimeImmutable());
     
+        $entityManager->persist($comment);
+        $entityManager->flush();
+    
+        $this->addFlash('success', 'Your comment has been posted!');
+        return $this->redirectToRoute('app_article_show', ['id' => $article->getId()]);
+    }
+    
+
+
+
+
 #[Route('/article/{articleId}/comment/{commentId}/delete', name: 'app_comment_delete')]
 public function deleteComment(int $articleId, int $commentId, EntityManagerInterface $entityManager): Response
 {
