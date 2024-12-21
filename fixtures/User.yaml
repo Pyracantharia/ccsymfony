@@ -5,3 +5,17 @@ App\Entity\User:
     password: '<password()>'
     firstName: '<firstName()>'
     lastName: '<lastName()>'
+  
+  user_11:
+    email: 'admin1@example.com'
+    roles: ['ROLE_USER', 'ROLE_ADMIN']
+    password: '<password()>'
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'
+
+  user_12:
+    email: 'banned1@example.com'
+    roles: ['ROLE_USER', 'ROLE_BANNED']
+    password: '<password()>'
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'

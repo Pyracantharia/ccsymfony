@@ -5,3 +5,4 @@ App\Entity\Article:
     publishedAt: '<dateTimeBetween("-1 year", "now")>'
     category: '@category_<numberBetween(1,5)>'
     language: '@language_<numberBetween(1,3)>'
+    author: '@user_<numberBetween(1,10)>'

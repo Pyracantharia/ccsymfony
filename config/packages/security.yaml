@@ -40,6 +40,7 @@ security:
         - { path: ^/profile, roles: ROLE_USER }                  # Pages utilisateur
         - { path: ^/banned, roles: ROLE_BANNED }                 # Pages bannies
         - { path: ^/, roles: PUBLIC_ACCESS }                  # Par défaut : accessible uniquement aux utilisateurs connectés
+        - { path: ^/logout, roles: ROLE_USER }                  # Par défaut : accessible uniquement aux utilisateurs connectés
 
 when@test:
     security:

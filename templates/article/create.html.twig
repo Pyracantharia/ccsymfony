@@ -1,0 +1,37 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Create New Article{% endblock %}
+
+{% block main_content %}
+    <h1>Create New Article</h1>
+
+    <div class="max-w-lg mx-auto">
+        {{ form_start(form) }}
+            <div class="mb-4">
+                {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_row(form.content, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            
+             <div class="mb-4">
+                {{ form_row(form.publishedAt, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_row(form.category, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            
+            <div class="mb-4">
+                {{ form_row(form.language, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            
+
+
+            <button type="submit" class="btn btn-primary w-full">Create Article</button>
+        {{ form_end(form) }}
+    </div>
+
+    <a href="{{ path('app_article_index') }}" class="mt-4 text-blue-500">Back to Articles List</a>
+{% endblock %}

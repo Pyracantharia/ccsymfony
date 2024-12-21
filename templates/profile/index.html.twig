@@ -9,6 +9,20 @@
             <h2 class="text-2xl font-semibold mb-4">Welcome, {{ app.user.firstName }} {{ app.user.lastName }}!</h2>
             <p class="text-gray-700">You are logged in as {{ app.user.email }}.</p>
 
+            <!-- Afficher les articles de l'utilisateur -->
+            <h3 class="text-xl font-semibold mt-6">Your Articles:</h3>
+            <ul class="mt-4">
+                {% for article in articles %}
+                    <li class="mb-3">
+                        <a href="{{ path('app_article_show', {'id': article.id}) }}" class="text-blue-500 hover:text-blue-600">
+                            {{ article.title }}
+                        </a>
+                    </li>
+                {% else %}
+                    <p class="text-gray-500">You have no articles yet.</p>
+                {% endfor %}
+            </ul>
+
             <!-- Bouton de déconnexion -->
             <div class="mt-6">
                 <a href="{{ path('app_logout') }}" class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">

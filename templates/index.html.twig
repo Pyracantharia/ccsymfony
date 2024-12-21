@@ -10,11 +10,13 @@
         <div class="flex space-x-4">
             <a href="{{ path('app_home') }}" class="text-white hover:bg-gray-700 p-2 rounded">Accueil</a>
             <a href="{{ path('app_forgot_password_request') }}" class="text-white hover:bg-gray-700 p-2 rounded">Mot de passe oublié</a>
-            <a href="{{ path('app_login') }}" class="text-white hover:bg-gray-700 p-2 rounded">Connexion</a>
-            <a href="{{ path('app_register') }}" class="text-white hover:bg-gray-700 p-2 rounded">Inscription</a>
-
-            {% if is_granted('ROLE_USER') %}
+            {% if app.user %}
                 <a href="{{ path('app_profile') }}" class="text-white hover:bg-gray-700 p-2 rounded">Profil</a>
+                <a href="{{ path('app_logout') }}" class="text-white hover:bg-gray-700 p-2 rounded">Déconnexion</a>
+                <a href="{{ path('app_article_create') }}" class="text-white hover:bg-gray-700 p-2 rounded">Créer un article</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="text-white hover:bg-gray-700 p-2 rounded">Connexion</a>
+                <a href="{{ path('app_register') }}" class="text-white hover:bg-gray-700 p-2 rounded">Inscription</a>
             {% endif %}
             
             {% if is_granted('ROLE_ADMIN') %}
